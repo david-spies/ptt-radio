@@ -1,0 +1,19 @@
+{
+  "name": "ptt-radio",
+  "version": "1.0.0",
+  "description": "Open-source push-to-talk over WebRTC — monorepo root",
+  "private": true,
+  "scripts": {
+    "install:all":  "npm install --prefix client && npm install --prefix server",
+    "dev":          "concurrently -n client,signal -c cyan,green \"npm run dev --prefix client\" \"npm run dev --prefix server\"",
+    "build":        "npm run build --prefix client",
+    "start:server": "npm run start --prefix server",
+    "start:client": "npm run preview --prefix client",
+    "docker:up":    "docker compose up --build -d",
+    "docker:down":  "docker compose down",
+    "docker:logs":  "docker compose logs -f"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
