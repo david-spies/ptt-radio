@@ -1,0 +1,21 @@
+{
+  "name": "ptt-radio-server",
+  "version": "1.0.0",
+  "description": "PTT-Radio WebSocket signaling server",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start":  "node src/index.js",
+    "dev":    "node --watch src/index.js",
+    "pm2":    "pm2 start src/index.js --name ptt-radio-server"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "pm2": "^5.4.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
