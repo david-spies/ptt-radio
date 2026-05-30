@@ -1,3 +1,31 @@
+<div align="center">
+
+<img src="docs/banner.svg" alt="PTT-Radio — open-source push-to-talk over WebRTC" width="100%"/>
+
+<br/>
+<br/>
+
+<!-- ── License ───────────────────────────────────────────────────────────── -->
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](LICENSE)
+
+<!-- ── Stack ────────────────────────────────────────────────────────────── -->
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-22c55e?style=flat-square&logo=node.js&logoColor=22c55e&labelColor=070e07)](https://nodejs.org)
+[![React](https://img.shields.io/badge/React-18-22c55e?style=flat-square&logo=react&logoColor=22c55e&labelColor=070e07)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite-5-22c55e?style=flat-square&logo=vite&logoColor=22c55e&labelColor=070e07)](https://vitejs.dev)
+
+<!-- ── Protocol ─────────────────────────────────────────────────────────── -->
+[![WebRTC](https://img.shields.io/badge/WebRTC-P2P-22c55e?style=flat-square&logo=webrtc&logoColor=22c55e&labelColor=070e07)](https://webrtc.org)
+[![Codec](https://img.shields.io/badge/Codec-Opus_48kHz-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](https://opus-codec.org)
+[![Encrypted](https://img.shields.io/badge/Encrypted-SRTP-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](https://datatracker.ietf.org/doc/html/rfc3711)
+
+<!-- ── Transport ─────────────────────────────────────────────────────────── -->
+[![Transport](https://img.shields.io/badge/Transport-WebSocket_%2B_UDP-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+[![Docker](https://img.shields.io/badge/Docker-ready-22c55e?style=flat-square&logo=docker&logoColor=22c55e&labelColor=070e07)](docker-compose.yml)
+
+<!-- ── Quality ────────────────────────────────────────────────────────────── -->
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](CONTRIBUTING.md)
+[![Open Source](https://img.shields.io/badge/Open_Source-%E2%9C%93-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](https://opensource.org)
+
 # PTT-Radio
 
 **Open-source push-to-talk voice communication over WebRTC.**
