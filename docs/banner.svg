@@ -1,116 +1,262 @@
 <svg width="680" height="220" viewBox="0 0 680 220" role="img" xmlns="http://www.w3.org/2000/svg">
   <title>PTT-Radio — open-source push-to-talk over WebRTC</title>
-  <desc>Dark industrial banner showing the PTT-Radio logo, tagline, and a signal waveform pattern</desc>
+  <desc>Animated banner: a pulse radiates from the radio antenna tip, travels across the waveform display from 0ms to 40ms, then repeats</desc>
 
   <defs>
     <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
       <path d="M40 0 L0 0 L0 40" fill="none" stroke="#1a2e1a" stroke-width="0.5"/>
     </pattern>
+
+    <clipPath id="wave-clip">
+      <rect x="430" y="36" width="248" height="160"/>
+    </clipPath>
+
+    <clipPath id="ant-clip">
+      <rect x="76" y="28" width="44" height="50"/>
+    </clipPath>
+
     <style>
       .mono { font-family: 'IBM Plex Mono', 'Courier New', monospace; }
+
+      /* ── Timing: 2.6s cycle ────────────────────────────────────────────── */
+
+      /* Antenna tip throb */
+      .ant-tip { animation: tip-throb 2.6s ease-in-out infinite; }
+      @keyframes tip-throb {
+        0%,100% { r: 2.5; opacity: 0.7; }
+        8%      { r: 4.5; opacity: 1;   }
+        30%     { r: 2.5; opacity: 0.7; }
+      }
+
+      /* Arc 1 — near arc */
+      .arc1 { animation: arc-near 2.6s ease-out infinite; }
+      @keyframes arc-near {
+        0%        { opacity: 0;   stroke-width: 1.0; }
+        6%        { opacity: 1;   stroke-width: 1.5; }
+        30%       { opacity: 0;   stroke-width: 0.8; }
+        100%      { opacity: 0; }
+      }
+
+      /* Arc 2 — far arc, slight delay */
+      .arc2 { animation: arc-far 2.6s ease-out 0.18s infinite; }
+      @keyframes arc-far {
+        0%        { opacity: 0;   stroke-width: 1.0; }
+        6%        { opacity: 0.7; stroke-width: 1.3; }
+        35%       { opacity: 0;   stroke-width: 0.8; }
+        100%      { opacity: 0; }
+      }
+
+      /* ── Waveform draw-on: path total length ~200px ─────────────────────── */
+      /* Delay matches pulse travel from antenna to waveform start */
+      .wave-trace {
+        stroke-dasharray: 200;
+        stroke-dashoffset: 200;
+        animation: draw-wave 2.6s linear infinite;
+      }
+      @keyframes draw-wave {
+        0%        { stroke-dashoffset: 200; opacity: 0.12; }
+        6%        { stroke-dashoffset: 200; opacity: 0.12; }
+        10%       { stroke-dashoffset: 200; opacity: 1;    }
+        82%       { stroke-dashoffset: 0;   opacity: 1;    }
+        92%       { stroke-dashoffset: 0;   opacity: 1;    }
+        100%      { stroke-dashoffset: 0;   opacity: 0.12; }
+      }
+
+      /* Baseline left: lit then dims as pulse enters waveform */
+      .bl-left {
+        animation: bl-l 2.6s linear infinite;
+        stroke-dasharray: 40;
+        stroke-dashoffset: 40;
+      }
+      @keyframes bl-l {
+        0%   { stroke-dashoffset: 40; opacity: 0.18; }
+        5%   { stroke-dashoffset: 40; opacity: 0.18; }
+        10%  { stroke-dashoffset: 0;  opacity: 0.9;  }
+        18%  { stroke-dashoffset: 0;  opacity: 0.18; }
+        100% { stroke-dashoffset: 0;  opacity: 0.18; }
+      }
+
+      /* Baseline right: lights up as pulse exits at 40ms mark */
+      .bl-right {
+        animation: bl-r 2.6s linear infinite;
+        stroke-dasharray: 60;
+        stroke-dashoffset: 60;
+      }
+      @keyframes bl-r {
+        0%   { stroke-dashoffset: 60; opacity: 0.18; }
+        80%  { stroke-dashoffset: 60; opacity: 0.18; }
+        88%  { stroke-dashoffset: 0;  opacity: 0.9;  }
+        96%  { stroke-dashoffset: 0;  opacity: 0.18; }
+        100% { stroke-dashoffset: 0;  opacity: 0.18; }
+      }
+
+      /* Traveling pulse dot */
+      .pulse-dot {
+        animation: travel-dot 2.6s linear infinite;
+        offset-path: path("M440,110 L480,110 L492,110 L497,68 L502,152 L507,80 L512,140 L517,95 L522,125 L527,110 L540,110 L548,110 L556,88 L562,132 L568,98 L574,122 L578,110 L600,110 L660,110");
+        offset-distance: 0%;
+        offset-rotate: 0deg;
+      }
+      @keyframes travel-dot {
+        0%   { offset-distance: 0%;   opacity: 0;    }
+        7%   { offset-distance: 3%;   opacity: 0;    }
+        10%  { offset-distance: 5%;   opacity: 1;    }
+        88%  { offset-distance: 97%;  opacity: 0.85; }
+        96%  { offset-distance: 100%; opacity: 0;    }
+        100% { offset-distance: 100%; opacity: 0;    }
+      }
+
+      /* Halo around traveling dot */
+      .pulse-halo {
+        animation: travel-halo 2.6s linear infinite;
+        offset-path: path("M440,110 L480,110 L492,110 L497,68 L502,152 L507,80 L512,140 L517,95 L522,125 L527,110 L540,110 L548,110 L556,88 L562,132 L568,98 L574,122 L578,110 L600,110 L660,110");
+        offset-distance: 0%;
+        offset-rotate: 0deg;
+      }
+      @keyframes travel-halo {
+        0%   { offset-distance: 0%;   opacity: 0;   r: 4;  }
+        7%   { offset-distance: 3%;   opacity: 0;   r: 4;  }
+        10%  { offset-distance: 5%;   opacity: 0.5; r: 8;  }
+        50%  { offset-distance: 50%;  opacity: 0.3; r: 9;  }
+        88%  { offset-distance: 97%;  opacity: 0.15; r: 6; }
+        96%  { offset-distance: 100%; opacity: 0;   r: 4;  }
+        100% { offset-distance: 100%; opacity: 0;   r: 4;  }
+      }
+
+      /* TX badge pulse */
+      .tx-badge { animation: tx-glow 2.6s ease-in-out infinite; }
+      @keyframes tx-glow {
+        0%,100% { opacity: 0.28; }
+        10%     { opacity: 1;    }
+        80%     { opacity: 1;    }
+        96%     { opacity: 0.28; }
+      }
+
+      /* Shimmer sweep */
+      .shimmer { animation: shimmer-sweep 2.6s linear infinite; }
+      @keyframes shimmer-sweep {
+        0%   { transform: translateX(-720px); opacity: 0;    }
+        4%   { opacity: 0.035; }
+        50%  { opacity: 0.018; }
+        96%  { opacity: 0.035; }
+        100% { transform: translateX(700px);  opacity: 0;    }
+      }
     </style>
   </defs>
 
   <!-- Background -->
   <rect width="680" height="220" fill="#070e07" rx="10"/>
+  <rect width="680" height="220" fill="url(#grid)" rx="10" opacity="0.55"/>
 
-  <!-- Grid texture -->
-  <rect width="680" height="220" fill="url(#grid)" rx="10" opacity="0.6"/>
+  <!-- Shimmer sweep overlay -->
+  <rect class="shimmer" x="0" y="0" width="120" height="220" fill="#22c55e" rx="0"/>
 
   <!-- Left accent bar -->
   <rect x="0" y="0" width="4" height="220" fill="#22c55e" rx="2"/>
 
-  <!-- ── Waveform — right panel ───────────────────────────────────────────────── -->
-
-  <!-- Idle baseline — left of burst -->
-  <line x1="440" y1="110" x2="480" y2="110" stroke="#1a3a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-  <!-- Opus audio burst waveform -->
-  <polyline
-    points="480,110 492,110 497,68 502,152 507,80 512,140 517,95 522,125 527,110 540,110 548,110 556,88 562,132 568,98 574,122 578,110 600,110"
-    fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- Idle baseline — right of burst -->
-  <line x1="600" y1="110" x2="660" y2="110" stroke="#1a3a1a" stroke-width="1.5" stroke-linecap="round"/>
-
-  <!-- TX badge -->
-  <rect x="596" y="48" width="32" height="15" fill="#22c55e" rx="2"/>
-  <text x="612" y="59" text-anchor="middle" class="mono" font-size="9" font-weight="600"
-        fill="#052e16" letter-spacing="1">TX</text>
-
-  <!-- Time tick marks -->
-  <line x1="480" y1="118" x2="480" y2="122" stroke="#1a3a1a" stroke-width="1"/>
-  <line x1="540" y1="118" x2="540" y2="122" stroke="#1a3a1a" stroke-width="1"/>
-  <line x1="600" y1="118" x2="600" y2="122" stroke="#1a3a1a" stroke-width="1"/>
-  <text x="480" y="132" text-anchor="middle" class="mono" font-size="9" fill="#1a3a1a">0ms</text>
-  <text x="540" y="132" text-anchor="middle" class="mono" font-size="9" fill="#1a3a1a">20ms</text>
-  <text x="600" y="132" text-anchor="middle" class="mono" font-size="9" fill="#1a3a1a">40ms</text>
-
-  <!-- ── Radio icon ───────────────────────────────────────────────────────────── -->
-
-  <!-- Chassis body -->
+  <!-- ── Radio chassis icon ─────────────────────────────────────────────── -->
   <rect x="48" y="72" width="54" height="38" rx="4" fill="none" stroke="#22c55e" stroke-width="1.5"/>
-
-  <!-- Speaker grille -->
-  <circle cx="60" cy="84" r="2"   fill="#22c55e"/>
-  <circle cx="60" cy="91" r="2"   fill="#22c55e"/>
-  <circle cx="60" cy="98" r="2"   fill="#22c55e"/>
-
-  <!-- LCD slot -->
-  <rect x="70" y="80" width="24" height="8" rx="1" fill="#22c55e" opacity="0.15"/>
+  <circle cx="60" cy="84" r="2" fill="#22c55e"/>
+  <circle cx="60" cy="91" r="2" fill="#22c55e"/>
+  <circle cx="60" cy="98" r="2" fill="#22c55e"/>
+  <rect x="70" y="80" width="24" height="8" rx="1" fill="#22c55e" opacity="0.14"/>
   <rect x="70" y="80" width="24" height="8" rx="1" fill="none" stroke="#22c55e" stroke-width="0.75"/>
-
-  <!-- Channel readout lines -->
-  <line x1="70" y1="96" x2="82" y2="96" stroke="#22c55e" stroke-width="1"   stroke-linecap="round"/>
+  <line x1="70" y1="96" x2="82" y2="96" stroke="#22c55e" stroke-width="1" stroke-linecap="round"/>
   <line x1="70" y1="100" x2="78" y2="100" stroke="#22c55e" stroke-width="1" stroke-linecap="round"/>
 
   <!-- Antenna mast -->
-  <line x1="84" y1="72" x2="84" y2="54" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
-  <circle cx="84" cy="51" r="2.5" fill="#22c55e"/>
+  <line x1="84" y1="72" x2="84" y2="48" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Animated tip -->
+  <circle class="ant-tip" cx="84" cy="45" r="2.5" fill="#22c55e"/>
 
-  <!-- Signal arcs -->
-  <path d="M91 65 Q97 60 91 55" fill="none" stroke="#22c55e" stroke-width="1.2"
-        stroke-linecap="round" opacity="0.5"/>
-  <path d="M95 68 Q104 60 95 52" fill="none" stroke="#22c55e" stroke-width="1.2"
-        stroke-linecap="round" opacity="0.28"/>
+  <!-- Animated signal arcs -->
+  <g clip-path="url(#ant-clip)">
+    <path class="arc1" d="M91 63 Q99 55 91 47"
+      fill="none" stroke="#22c55e" stroke-width="1.2" stroke-linecap="round"/>
+    <path class="arc2" d="M97 67 Q108 56 97 45"
+      fill="none" stroke="#22c55e" stroke-width="1.1" stroke-linecap="round"/>
+  </g>
 
-  <!-- ── Logotype ─────────────────────────────────────────────────────────────── -->
-
-  <!-- "PTT" — large -->
+  <!-- ── Logotype ────────────────────────────────────────────────────────── -->
   <text x="118" y="108" class="mono" font-size="52" font-weight="600"
         fill="#22c55e" letter-spacing="-1">PTT</text>
-
-  <!-- "RADIO" — lighter, spaced -->
   <text x="118" y="146" class="mono" font-size="28" font-weight="400"
         fill="#4ade80" letter-spacing="8">RADIO</text>
 
-  <!-- Divider rule -->
   <line x1="118" y1="155" x2="420" y2="155" stroke="#1a3a1a" stroke-width="0.75"/>
 
-  <!-- Tagline -->
   <text x="118" y="172" class="mono" font-size="11" fill="#4ade80" opacity="0.48"
         letter-spacing="0.8">Open-source push-to-talk · WebRTC · Opus 48kHz · SRTP</text>
 
-  <!-- ── Mini badge strip ────────────────────────────────────────────────────── -->
-
+  <!-- Mini badge strip -->
   <rect x="118" y="184" width="48" height="16" rx="3" fill="#052e16"/>
   <text x="142" y="195" text-anchor="middle" class="mono" font-size="9"
         fill="#22c55e" letter-spacing="0.5">v1.0.0</text>
-
   <rect x="172" y="184" width="40" height="16" rx="3" fill="#1a2e1a"/>
   <text x="192" y="195" text-anchor="middle" class="mono" font-size="9"
         fill="#4ade80" letter-spacing="0.5">MIT</text>
-
   <rect x="218" y="184" width="52" height="16" rx="3" fill="#1a2e1a"/>
   <text x="244" y="195" text-anchor="middle" class="mono" font-size="9"
         fill="#4ade80" letter-spacing="0.5">Node 18+</text>
-
   <rect x="276" y="184" width="48" height="16" rx="3" fill="#1a2e1a"/>
   <text x="300" y="195" text-anchor="middle" class="mono" font-size="9"
         fill="#4ade80" letter-spacing="0.5">React 18</text>
 
+  <!-- ── Waveform panel ─────────────────────────────────────────────────── -->
+  <g clip-path="url(#wave-clip)">
+
+    <!-- Ghost underlay — always dim visible so shape reads before animation -->
+    <polyline
+      points="480,110 492,110 497,68 502,152 507,80 512,140 517,95 522,125 527,110 540,110 548,110 556,88 562,132 568,98 574,122 578,110 600,110"
+      fill="none" stroke="#1a3a1a" stroke-width="1.5"
+      stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Animated baseline left -->
+    <line class="bl-left" x1="440" y1="110" x2="480" y2="110"
+      stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Animated draw-on trace -->
+    <polyline class="wave-trace"
+      points="480,110 492,110 497,68 502,152 507,80 512,140 517,95 522,125 527,110 540,110 548,110 556,88 562,132 568,98 574,122 578,110 600,110"
+      fill="none" stroke="#22c55e" stroke-width="2.2"
+      stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Animated baseline right -->
+    <line class="bl-right" x1="600" y1="110" x2="660" y2="110"
+      stroke="#22c55e" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Halo -->
+    <circle class="pulse-halo" cx="0" cy="0" r="8"
+      fill="none" stroke="#22c55e" stroke-width="1.2"/>
+
+    <!-- Traveling dot -->
+    <circle class="pulse-dot" cx="0" cy="0" r="3.5" fill="#22c55e"/>
+
+  </g>
+
+  <!-- TX badge (outside clip so always visible above waveform panel) -->
+  <rect class="tx-badge" x="596" y="48" width="32" height="15" fill="#22c55e" rx="2"/>
+  <text class="tx-badge" x="612" y="59" text-anchor="middle"
+        font-family="'IBM Plex Mono','Courier New',monospace"
+        font-size="9" font-weight="600" fill="#052e16" letter-spacing="1">TX</text>
+
+  <!-- Time tick marks -->
+  <line x1="480" y1="118" x2="480" y2="123" stroke="#1a3a1a" stroke-width="1"/>
+  <line x1="540" y1="118" x2="540" y2="123" stroke="#1a3a1a" stroke-width="1"/>
+  <line x1="600" y1="118" x2="600" y2="123" stroke="#1a3a1a" stroke-width="1"/>
+  <text x="480" y="133" text-anchor="middle"
+        font-family="'IBM Plex Mono','Courier New',monospace"
+        font-size="9" fill="#1a3a1a">0ms</text>
+  <text x="540" y="133" text-anchor="middle"
+        font-family="'IBM Plex Mono','Courier New',monospace"
+        font-size="9" fill="#1a3a1a">20ms</text>
+  <text x="600" y="133" text-anchor="middle"
+        font-family="'IBM Plex Mono','Courier New',monospace"
+        font-size="9" fill="#1a3a1a">40ms</text>
+
   <!-- Bottom-right watermark -->
-  <text x="656" y="210" text-anchor="end" class="mono" font-size="9"
-        fill="#1a3a1a" letter-spacing="1">HALF-DUPLEX</text>
+  <text x="656" y="210" text-anchor="end"
+        font-family="'IBM Plex Mono','Courier New',monospace"
+        font-size="9" fill="#1a3a1a" letter-spacing="1">HALF-DUPLEX</text>
 
 </svg>
