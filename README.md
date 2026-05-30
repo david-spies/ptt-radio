@@ -26,6 +26,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](CONTRIBUTING.md)
 [![Open Source](https://img.shields.io/badge/Open_Source-%E2%9C%93-22c55e?style=flat-square&labelColor=070e07&color=22c55e)](https://opensource.org)
 
+</div>
 # PTT-Radio
 
 **Open-source push-to-talk voice communication over WebRTC.**
