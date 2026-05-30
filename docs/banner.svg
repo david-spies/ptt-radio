@@ -132,24 +132,12 @@
         96%     { opacity: 0.28; }
       }
 
-      /* Shimmer sweep */
-      .shimmer { animation: shimmer-sweep 2.6s linear infinite; }
-      @keyframes shimmer-sweep {
-        0%   { transform: translateX(-720px); opacity: 0;    }
-        4%   { opacity: 0.035; }
-        50%  { opacity: 0.018; }
-        96%  { opacity: 0.035; }
-        100% { transform: translateX(700px);  opacity: 0;    }
-      }
     </style>
   </defs>
 
   <!-- Background -->
   <rect width="680" height="220" fill="#070e07" rx="10"/>
   <rect width="680" height="220" fill="url(#grid)" rx="10" opacity="0.55"/>
-
-  <!-- Shimmer sweep overlay -->
-  <rect class="shimmer" x="0" y="0" width="120" height="220" fill="#22c55e" rx="0"/>
 
   <!-- Left accent bar -->
   <rect x="0" y="0" width="4" height="220" fill="#22c55e" rx="2"/>
