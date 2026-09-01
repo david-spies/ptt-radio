@@ -1,4 +1,3 @@
-# PTT-Radio
 <div align="center">
 
 <img src="docs/banner.svg" alt="PTT-Radio — open-source push-to-talk over WebRTC" width="100%"/>
@@ -21,22 +20,24 @@
 
 ---
 
+# PTT-Radio
+
 **Open-source push-to-talk voice communication over WebRTC.**
 
 Hold a button (or keyboard hotkey) to speak. Release to send. Anyone in the same room hears you in real time — no telephony, no audio servers, no third-party services required. Audio travels directly peer-to-peer over encrypted WebRTC (SRTP/Opus), with a tiny WebSocket signaling relay for peer discovery only.
 
 ```
-  ┌───────── Machine A ──────────┐      ┌───────── Machine B ───────────┐
-  │  Browser  →  PTT-Radio UI    │      │    PTT-Radio UI  ←  Browser   │
-  │  [HOLD PTT]  Opus 48kHz      │      │     Opus 48kHz  [PLAYS AUDIO] │
-  └──────────┬───────────────────┘      └───────────────┬───────────────┘
+  ┌───────── Machine A ──────────┐      ┌───────── Machine B ──────────┐
+  │  Browser  →  PTT-Radio UI    │      │    PTT-Radio UI  ←  Browser  │
+  │  [HOLD PTT]  Opus 48kHz      │      │     Opus 48kHz  [PLAYS AUDIO]│
+  └──────────┬───────────────────┘      └───────────────┬──────────────┘
              │   WebRTC P2P (SRTP/UDP)                  │
              └──────────────────────────────────────────┘
                            ↕ signaling only ↕
-                   ┌───────────────────────────┐
+                   ┌──────────────────────────┐
                    │   PTT-Radio Signal Server │
                    │   WebSocket — port 3001   │
-                   └───────────────────────────┘
+                   └──────────────────────────┘
 ```
 
 ---
@@ -121,7 +122,7 @@ ptt-radio/
 ### 1 — Clone and install
 
 ```bash
-git clone https://github.com/david-spies/ptt-radio.git
+git clone https://github.com/your-org/ptt-radio.git
 cd ptt-radio
 npm install          # installs root dev deps (concurrently)
 npm run install:all  # installs client + server deps
@@ -160,10 +161,33 @@ This starts:
 
 ### 1 — Configure environment
 
+The repo ships with `server/.env.example` — a template listing every available variable with safe defaults. **This file is committed to the repo intentionally** so you always have a reference. The actual `server/.env` is in `.gitignore` and must never be committed — it is created locally by each user.
+
 ```bash
+# Copy the example template to create your local environment file
 cp server/.env.example server/.env
-# Edit server/.env — set ALLOWED_ORIGINS to your domain in production
 ```
+
+For **local development and testing**, the defaults in `.env.example` work as-is — no edits required:
+
+```
+# server/.env — local defaults, no changes needed to get running
+PORT=3001
+MAX_ROOMS=500
+MAX_PEERS=8
+HEARTBEAT_MS=20000
+MSG_MAX_BYTES=65536
+ALLOWED_ORIGINS=
+```
+
+For **production deployment**, open `server/.env` in any text editor and set `ALLOWED_ORIGINS` to your domain to prevent unauthorized clients from connecting to your signal server:
+
+```
+# Example — replace with your actual domain
+ALLOWED_ORIGINS=https://ptt-radio.your-domain.com
+```
+
+> **Why `.env.example` and not `.env` directly?** The `.env` file can contain sensitive values (origins, secrets) that differ per environment and should never be committed to version control. `.env.example` is the safe, committed template — `.env` is your private local copy. This is a standard convention across most open-source server projects.
 
 ### 2 — Build and start
 
