@@ -34,10 +34,10 @@ Hold a button (or keyboard hotkey) to speak. Release to send. Anyone in the same
              │   WebRTC P2P (SRTP/UDP)                  │
              └──────────────────────────────────────────┘
                            ↕ signaling only ↕
-                   ┌──────────────────────────┐
+                   ┌───────────────────────────┐
                    │   PTT-Radio Signal Server │
                    │   WebSocket — port 3001   │
-                   └──────────────────────────┘
+                   └───────────────────────────┘
 ```
 
 ---
@@ -122,7 +122,7 @@ ptt-radio/
 ### 1 — Clone and install
 
 ```bash
-git clone https://github.com/your-org/ptt-radio.git
+git clone https://github.com/david-spies/ptt-radio.git
 cd ptt-radio
 npm install          # installs root dev deps (concurrently)
 npm run install:all  # installs client + server deps
